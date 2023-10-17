@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
 {% extends 'admin/starter.html' %}
-{% block title %} Add new student {% endblock %}
+{% block title %} Add new product {% endblock %}
 {% block content_header %}
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Add new student</h1>
+                <h1 class="m-0">Add new product</h1>
             </div><!-- /.col -->
             <div class="col-sm-6 text-right">
-                <a class="btn btn-outline-dark" href="{{ url_for('students.student', page=page) }}">Back</a>
+                <a class="btn btn-outline-dark" href="{{ url_for('products.product', page=page) }}">Back</a>
             </div>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -17,65 +17,54 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-8 form">
-                <form action="{{ url_for('students.student_added') }}" method="POST" enctype="multipart/form-data"
+                <form action="{{ url_for('products.product_added') }}" method="POST" enctype="multipart/form-data"
                       class="p-4">
                     <div class="row">
-                        <label for="firstname" class="form-label col-6">Firstname
-                            <input name="firstname" type="text" class="form-control" placeholder="Enter firstName" required>
+                        <label for="productName" class="form-label col-6">Product name
+                            <input name="productName" type="text" class="form-control" placeholder="Enter product name"
+                                   required>
                         </label>
-                        <label for="Lastname" class="form-label col-6">Lastname
-                            <input name="lastname" type="text" class="form-control" placeholder="Enter lastname" required>
-                        </label>
-                    </div>
-                    <div class="row">
-                        <label for="birthday" class="form-label col-6">Birthday
-                            <input name="birthday" type="date" class="form-control">
-                        </label>
-
-                        <div class="col-3">
-                            <label class="col-12 p-0">Gender</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender"
-                                       id="male" value="male" checked>
-                                <label class="form-check-label" for="male">
-                                    Male
-                                </label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="gender"
-                                       id="female" value="female">
-                                <label class="form-check-label" for="female">
-                                    Female
-                                </label>
-                            </div>
-                        </div>
-                        <label for="subject" class="form-label col-3">Subject
-                            <select id="subject" class="form-select form-control" name="subject" >
-                                <option selected hidden>Select subject</option>
-                                <option value="mis">MIS</option>
-                                <option value="design">Design</option>
-                                <option value="bit">BIT</option>
-                                <option value="engineer">Engineer</option>
-                                <option value="programming">Programming</option>
+                        <label for="category" class="form-label col-6">Category
+                            <select id="category" class="form-select form-control" name="category">
+                                <option selected hidden>Select category</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.cid }}">{{ category.cname|capitalize }}</option>
+                                {% endfor %}
                             </select>
                         </label>
                     </div>
                     <div class="row">
-                        <label for="email" class="form-label col-6">Email
-                            <input name="email" type="email" class="form-control" placeholder="Enter email" >
+                        <label for="cost" class="form-label col-6">Cost in dollar
+                            <input step="any" min="0" name="cost" type="number" class="form-control" placeholder="Enter cost of product"
+                                   required>
                         </label>
-                        <label for="phone" class="form-label col-6">Phone
-                            <input name="phone" type="tel" class="form-control" placeholder="Enter phone number">
+                        <label  for="price" class="form-label col-6">Price in dollar
+                            <input step="any" min="0" name="price" type="number" class="form-control" placeholder="Enter price of product"
+                                   required>
                         </label>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-3">
+                            <label class="m-0">Quantity</label>
+                            <div class="input-group mb-2">
+                                <input min="0" name="qty" type="number" class="form-control qty" placeholder="quantity"
+                                       aria-label="Recipient's username with two button addons" value="0">
+                            </div>
+                        </div>
+
+                        <div class="col-9">
                             <label for="image" class="form-label m-0">Upload image</label>
                             <input onchange="validateSize()" class="form-control" type="file" name="image_upload"
                                    id="image_upload" accept=".jpg,.png,.jfif,.svg,.jpeg,.gif">
                         </div>
-                        <label for="email" class="form-label col-6">Address
-                            <input name="address" type="text" class="form-control" placeholder="Enter address">
+                    </div>
+
+                    <div class="row">
+                        <label for="description" class="form-label col-12">Description
+                            <div class="form-floating">
+                                <textarea name="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                          style="height: 100px"></textarea>
+                            </div>
                         </label>
                     </div>
                     <div class="row justify-content-center">
@@ -94,6 +83,21 @@
                 document.getElementById('image_upload').value = '';
             }
         }
+
+        const qty = document.querySelector('.qty')
+
+        function incrementQty() {
+
+            let num = parseInt(qty.value);
+            num += 1
+            qty.value = num
+        }
+
+        function decrementQty() {
+            let num = parseInt(qty.value);
+            num !== 0 ? num -= 1 : num = 0
+            qty.value = num
+        }
     </script>
 {% endblock %}
 
@@ -105,7 +109,7 @@
     transition:300ms ease;
     }
     .form:hover{
-        box-shadow:none;
+    box-shadow:none;
     }
 {% endblock %}
 <script src="../../../static/js/bootstrap.min.js"></script>

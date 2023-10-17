@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
 {% extends 'admin/starter.html' %}
-{% block title %} Add new product category {% endblock %}
+{% block title %} Product category details {% endblock %}
 {% block content_header %}
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Add new product category</h1>
+                <h1 class="m-0">Product category details</h1>
             </div><!-- /.col -->
             <div class="col-sm-6 text-right">
-                <a class="btn btn-outline-dark" href="{{ url_for('product_categories.category') }}">Back</a>
+                <a class="btn btn-outline-dark" href="{{ url_for('product_categories.category', page=page) }}">Back</a>
             </div>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -17,25 +17,23 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-8 form">
-                <form action="{{ url_for('product_categories.category_added') }}" method="POST" enctype="multipart/form-data"
+                {% for row in rows %}
+                <form action="" method="POST" enctype="multipart/form-data"
                       class="p-4">
                     <div class="row">
                         <label for="cname" class="form-label col-12">Product name
-                            <input name="cname" type="text" class="form-control" placeholder="Enter product name"
-                                   required>
+                            <input value="{{ row.cname }}" name="cname" type="text" class="form-control" placeholder="Enter product name"
+                                   required readonly>
                         </label>
                         <label for="desc" class="form-label col-12">Description
                             <div class="form-floating">
-                                <textarea name="desc" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                                          style="height: 100px"></textarea>
+                                <textarea readonly name="desc" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                          style="height: 300px">{{ row.cdescription if row.cdescription != '' else 'N/A' }}</textarea>
                             </div>
                         </label>
                     </div>
-                    <div class="row justify-content-center">
-                        <button type="submit" class="col-2 btn btn-outline-dark m-3">Submit</button>
-                        <button type="reset" class="col-2 btn btn-outline-dark m-3">Reset</button>
-                    </div>
                 </form>
+                {% endfor %}
             </div>
         </div>
     </div>
