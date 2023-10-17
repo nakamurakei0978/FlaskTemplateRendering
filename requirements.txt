@@ -1,0 +1,5 @@
+flask~=2.3.3
+werkzeug~=2.3.7
+config~=0.5.1
+lorem~=0.1.1
+randomname~=0.2.1
