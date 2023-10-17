@@ -3,6 +3,6 @@ School project.
 
 Create Environment/venv
 
-run: python -m pip install flask
+Install flask: python -m pip install flask
 
 run project: python -m flask run
