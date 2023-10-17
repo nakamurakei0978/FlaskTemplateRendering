@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+{% extends 'admin/starter.html' %}
+{% block title %} Add new product {% endblock %}
+{% block content_header %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Add new product</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6 text-right">
+                <a class="btn btn-outline-dark" href="{{ url_for('products.product', page=page) }}">Back</a>
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-8 form">
+                <form action="{{ url_for('products.product_added') }}" method="POST" enctype="multipart/form-data"
+                      class="p-4">
+                    <div class="row">
+                        <label for="productName" class="form-label col-6">Product name
+                            <input name="productName" type="text" class="form-control" placeholder="Enter product name"
+                                   required>
+                        </label>
+                        <label for="category" class="form-label col-6">Category
+                            <select id="category" class="form-select form-control" name="category">
+                                <option selected hidden>Select category</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.cid }}">{{ category.cname }}</option>
+                                {% endfor %}
+                            </select>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label for="cost" class="form-label col-6">Cost in dollar
+                            <input step="any" min="0" name="cost" type="number" class="form-control" placeholder="Enter cost of product"
+                                   required>
+                        </label>
+                        <label  for="price" class="form-label col-6">Price in dollar
+                            <input step="any" min="0" name="price" type="number" class="form-control" placeholder="Enter price of product"
+                                   required>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="m-0">Quantity</label>
+                            <div class="input-group mb-2">
+                                <input min="0" name="qty" type="number" class="form-control qty" placeholder="quantity"
+                                       aria-label="Recipient's username with two button addons" value="0">
+                            </div>
+                        </div>
+
+                        <div class="col-9">
+                            <label for="image" class="form-label m-0">Upload image</label>
+                            <input onchange="validateSize()" class="form-control" type="file" name="image_upload"
+                                   id="image_upload" accept=".jpg,.png,.jfif,.svg,.jpeg,.gif">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="description" class="form-label col-12">Description
+                            <div class="form-floating">
+                                <textarea name="description" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                          style="height: 100px"></textarea>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="col-2 btn btn-outline-dark m-3">Submit</button>
+                        <button type="reset" class="col-2 btn btn-outline-dark m-3">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function validateSize() {
+            const file = document.getElementById('image_upload').files[0];
+            if (file.size > 2 * 1024 * 1024) {
+                alert('File size is too large. The maximum file size is 2MB.');
+                document.getElementById('image_upload').value = '';
+            }
+        }
+
+        const qty = document.querySelector('.qty')
+
+        function incrementQty() {
+
+            let num = parseInt(qty.value);
+            num += 1
+            qty.value = num
+        }
+
+        function decrementQty() {
+            let num = parseInt(qty.value);
+            num !== 0 ? num -= 1 : num = 0
+            qty.value = num
+        }
+    </script>
+{% endblock %}
+
+{% block style %}
+    .form{
+    box-shadow: 0 0 15px 5px rgba(0,0,0,0.3);
+    background: white;
+    border-radius: 15px;
+    transition:300ms ease;
+    }
+    .form:hover{
+    box-shadow:none;
+    }
+{% endblock %}
+<script src="../../../static/js/bootstrap.min.js"></script>

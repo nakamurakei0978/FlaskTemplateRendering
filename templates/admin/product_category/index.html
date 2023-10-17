@@ -1,0 +1,155 @@
+{% extends 'admin/starter.html' %}
+{% block title %} Product {% endblock %}
+{% block content_header %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Products</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6 text-right">
+                <a class="btn btn-outline-dark" href="{{ url_for('products.add_product') }}">Add new</a>
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+{% block main_content %}
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col" class="text-center">Image</th>
+                <th scope="col" class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in rows %}
+                <tr>
+                    <th scope="row">{{ row.id }}</th>
+                    <td>{{ row.name }}</td>
+                    <td>{{ 'N/A' if row.cname is none else row.cname}}</td>
+                    <td>{{ 'Out of stock' if row.qty == 0 else "x{}".format(row.qty)}}</td>
+                    <td>{{"${:,.2f}".format(row.price_in_cent / 100)}}</td>
+                    <td class="text-center position-relative">
+                        {% if row.image is none or row.image == '' %}
+                            N/A
+                        {% else %}
+                            <img class="sm-image" src="{{ url_for('static', filename='image/product/' + row.image if '.' in row.image else row.image + '.jpg') }}" alt="{{ row.image }}">
+                            <img class="lg-image" src="{{ url_for('static', filename='image/product/' + row.image if '.' in row.image else row.image + '.jpg') }}" alt="{{ row.image }}">
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <form action="{{ url_for('products.detail_product') }}" method="post">
+                            <input type="hidden" value="{{ row.id }}" name="id">
+                            <input type="hidden" value="{{ page }}" name="page_id">
+                            <button type="submit" title="detail">
+                                <span class="fas fa-eye action-btn"></span>
+                            </button>
+                        </form>
+                        <form action="{{ url_for('products.edit_product') }}" method="post">
+                            <input type="hidden" value="{{ row.id }}" name="id">
+                            <input type="hidden" value="{{ page }}" name="page_id">
+                            <button type="submit" title="Edit">
+                                <span class="fas fa-edit action-btn"></span>
+                            </button>
+                        </form>
+                        <form action="{{ url_for('products.delete_product') }}" method="post">
+                            <input type="hidden" value="{{ row.id }}" name="id">
+                            <input type="hidden" value="{{ page }}" name="page_id">
+                            <input type="hidden" value="{{ row.image }}" name="image_upload">
+                            <button type="submit" title="Delete">
+                                <span class="fas fa-trash action-btn"></span>
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination Links -->
+        <div style="margin-top: 20px" class="text-center">
+            {% if page > 1 %}
+                <a href="{{ url_for('products.product', page=1) }}" class="btn btn-outline-dark">First</a>
+                <a href="{{ url_for('products.product', page=page-1) }}" class="btn btn-outline-dark"><</a>
+                {% if page-2 >= 1 %}
+                    <a href="{{ url_for('products.product', page=page-2) }}"
+                       class="btn btn-outline-dark">{{ page-2 }}</a>
+                {% endif %}
+            {% endif %}
+            <span>---Page {{ page }}---</span>
+            {% if page < total_pages %}
+                {% if page+2 <= total_pages %}
+                    <a href="{{ url_for('products.product', page=page+2) }}" class="btn btn-outline-dark">
+                        {{ page+2 }}</a>
+                {% endif %}
+                <a href="{{ url_for('products.product', page=page+1) }}" class="btn btn-outline-dark">></a>
+                <a href="{{ url_for('products.product', page=total_pages) }}" class="btn btn-outline-dark">Last</a>
+            {% endif %}
+        </div>
+    </div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block style %}
+    form{
+        display:inline;
+    }
+    button{
+        border:none;
+        background: none;
+        display:inline;
+        padding:0;
+    }
+
+    .action-btn{
+    color:black;
+    font-size: 15px;
+    padding: 10px;
+    margin: 0 5px;
+    background:white;
+    border-radius:10px;
+    transition: 300ms ease;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.1);
+    }
+    .action-btn:hover{
+    box-shadow: none;
+    }
+    .action-btn:first-child:hover{
+    transform:scale(1.1);
+    }
+    .action-btn:nth-child(2):hover{
+    transform:scale(1.1);
+    }
+    .action-btn:last-child:hover{
+    transform:scale(1.1);
+    }
+
+    .btn-outline-dark{
+    border-radius: 10px;
+    }
+    img{
+        width:40px;
+        height:40px;
+        object-fit: cover;
+        transition: 300ms ease;
+        cursor:pointer;
+        border-radius:10px;
+    }
+    .lg-image{
+        width:0;
+        height:0;
+        position:absolute;
+        z-index:-1;
+    }
+    .sm-image:hover+.lg-image{
+        transform:scale(6) translateX(20px);
+        width:40px;
+        height:40px;
+        z-index:0;
+    }
+{% endblock %}
