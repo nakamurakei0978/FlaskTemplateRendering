@@ -64,7 +64,7 @@ def customer_added():
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
                 filename = secure_filename(f"{firstname}_{rnd}{extension}")
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                image.save(os.path.join(current_app.config['CUSTOMER_UPLOAD_FOLDER'], filename))
 
                 query = "INSERT INTO customer (firstname,lastname,status, image) VALUES (?,?,?,?)"
                 params = (firstname, lastname, status, filename)
@@ -126,13 +126,13 @@ def customer_edited():
 
                 # Delete the old image file
                 if old_image_filename:
-                    old_image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], old_image_filename)
+                    old_image_path = os.path.join(current_app.config['CUSTOMER_UPLOAD_FOLDER'], old_image_filename)
                     if os.path.isfile(old_image_path):
                         os.remove(old_image_path)
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
                 filename = secure_filename(f"{firstname}_{rnd}{extension}")
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                image.save(os.path.join(current_app.config['CUSTOMER_UPLOAD_FOLDER'], filename))
 
                 query = f"UPDATE customer SET " \
                         f"firstname = ?, " \
@@ -183,7 +183,7 @@ def delete_customer():
 
             # Delete the old image file if it's not the default image
             # if image != 'default_img':
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image)
+            image_path = os.path.join(current_app.config['CUSTOMER_UPLOAD_FOLDER'], image)
             if os.path.isfile(image_path):
                 os.remove(image_path)
 

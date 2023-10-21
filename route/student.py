@@ -66,7 +66,7 @@ def student_added():
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
                 filename = secure_filename(f"{firstname}_{lastname}{extension}")
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                image.save(os.path.join(current_app.config['STUDENT_UPLOAD_FOLDER'], filename))
 
                 query = "INSERT INTO student (firstname,lastname,birthday,gender," \
                         "email,phone,subject,image,address) VALUES (?,?,?,?,?,?,?,?,?)"
@@ -140,7 +140,7 @@ def student_edited():
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
                 filename = secure_filename(f"{firstname}_{lastname}{extension}")
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                image.save(os.path.join(current_app.config['STUDENT_UPLOAD_FOLDER'], filename))
 
                 query = f"UPDATE student SET " \
                         f"firstName = ?, " \
@@ -201,7 +201,7 @@ def delete_student():
 
             # Delete the old image file if it's not the default image
             if image != 'default_img':
-                image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image)
+                image_path = os.path.join(current_app.config['STUDENT_UPLOAD_FOLDER'], image)
                 if os.path.isfile(image_path):
                     os.remove(image_path)
 

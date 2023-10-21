@@ -11,10 +11,10 @@ from route.user import users
 from route.currency import currencies
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = 'static/image/student'
-app.config['UPLOAD_FOLDER'] = 'static/image/product'
-app.config['UPLOAD_FOLDER'] = 'static/image/customer'
-app.config['UPLOAD_FOLDER'] = 'static/image/user'
+app.config['STUDENT_UPLOAD_FOLDER'] = 'static/image/student'
+app.config['PRODUCT_UPLOAD_FOLDER'] = 'static/image/product'
+app.config['CUSTOMER_UPLOAD_FOLDER'] = 'static/image/customer'
+app.config['USER_UPLOAD_FOLDER'] = 'static/image/user'
 
 app.register_blueprint(students)
 app.register_blueprint(products)

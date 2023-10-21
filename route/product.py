@@ -71,7 +71,7 @@ def product_added():
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
                 filename = secure_filename(f"{pname}_{cost+price}{extension}")
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                image.save(os.path.join(current_app.config['PRODUCT_UPLOAD_FOLDER'], filename))
 
                 query = "INSERT INTO product (name,category_id,description," \
                         "qty, cost_in_cent,price_in_cent,image, created_date) VALUES (?,?,?,?,?,?,?,?)"
@@ -138,13 +138,13 @@ def product_edited():
 
                 # Delete the old image file
                 if old_image_filename:
-                    old_image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], old_image_filename)
+                    old_image_path = os.path.join(current_app.config['PRODUCT_UPLOAD_FOLDER'], old_image_filename)
                     if os.path.isfile(old_image_path):
                         os.remove(old_image_path)
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
                 filename = secure_filename(f"{name}_{cost+price}{extension}")
-                image.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                image.save(os.path.join(current_app.config['PRODUCT_UPLOAD_FOLDER'], filename))
 
                 query = f"UPDATE product SET " \
                         f"name = ?, " \
@@ -202,7 +202,7 @@ def delete_product():
 
             # Delete the old image file if it's not the default image
             # if image != 'default_img':
-            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image)
+            image_path = os.path.join(current_app.config['PRODUCT_UPLOAD_FOLDER'], image)
             if os.path.isfile(image_path):
                 os.remove(image_path)
 
