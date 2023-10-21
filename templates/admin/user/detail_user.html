@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+{% extends 'admin/starter.html' %}
+{% block title %} User details {% endblock %}
+{% block content_header %}
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">User details</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6 text-right">
+                <a class="btn btn-outline-dark" href="{{ url_for('users.user', page=page) }}">Back</a>
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+{% endblock %}
+{% block main_content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-6 form">
+                {% for row in rows %}
+                    <form action="" method="POST" enctype="multipart/form-data"
+                          class="p-4">
+                        <input type="hidden" value="{{ row.id }}" name="id">
+                        <input type="hidden" value="{{ page }}" name="page_id">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="firstname" class="form-label col">Firstname
+                                    <input readonly name="firstname" type="text" class="form-control"
+                                           placeholder="Enter firstname" value="{{ row.firstname }}"
+                                           required>
+                                </label>
+                                <label for="lastname" class="form-label col">Lastname
+                                    <input readonly name="lastname" type="text" class="form-control" placeholder="Enter lastname"
+                                           required value="{{ row.lastname }}">
+                                </label>
+                                <label for="status" class="form-label col">Status
+                                    <input readonly name="status" type="text" class="form-control" placeholder="Enter status"
+                                           required value="{{ row.status }}">
+                                </label>
+                                <label for="imageName" class="form-label col">Image name
+                                    <input readonly name="imageName" type="text" class="form-control" placeholder="Enter status"
+                                           required value="{{ row.image }}">
+                                </label>
+                            </div>
+                            <div class="col-6">
+                                <label class="col-12 p-0 m-0">Image</label>
+                                {% if row.image == '' or row.image is none %}
+                                    <img src="{{ url_for('static', filename='image/no-image.png') }}"
+                                         class="img-thumbnail mod-image" alt="{{ row.image }}">
+                                {% else %}
+                                    <img data-toggle="modal" data-target="#triggerModal"
+                                         src="{{ url_for('static', filename='image/user/' + row.image if '.' in row.image else row.image + '.jpg') }}"
+                                         class="img-thumbnail mod-image hand" alt="{{ row.image }}">
+                                    <div class="modal fade" tabindex="-1" id="triggerModal">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Image</h5>
+                                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img src="{{ url_for('static', filename='image/user/' + row.image if '.' in row.image else row.image + '.jpg') }}"
+                                                         class="img-thumbnail modal-mod-image" alt="{{ row.image }}">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </form>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <script>
+        function validateSize() {
+            const file = document.getElementById('image_upload').files[0];
+            if (file.size > 2 * 1024 * 1024) {
+                alert('File size is too large. The maximum file size is 2MB.');
+                document.getElementById('image_upload').value = '';
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block style %}
+    .form{
+    box-shadow: 0 0 15px 5px rgba(0,0,0,0.3);
+    background: white;
+    border-radius: 15px;
+    transition:300ms ease;
+    }
+    .form:hover{
+    box-shadow:none;
+    }
+    .mod-image{
+    height:248px;
+    width:303px;
+    object-fit:cover;
+    }
+    .hand{
+    cursor:pointer;
+    }
+    .modal-mod-image{
+    object-fit:contain;
+    width: 100%;
+    height:100%;
+    }
+{% endblock %}
+<script src="../../../static/js/bootstrap.min.js"></script>

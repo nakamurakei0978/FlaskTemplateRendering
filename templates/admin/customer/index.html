@@ -1,13 +1,13 @@
 {% extends 'admin/starter.html' %}
-{% block title %} Product {% endblock %}
+{% block title %} Customer {% endblock %}
 {% block content_header %}
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Products</h1>
+                <h1 class="m-0">Customers</h1>
             </div><!-- /.col -->
             <div class="col-sm-6 text-right">
-                <a class="btn btn-outline-dark" href="{{ url_for('products.add_product') }}">Add new</a>
+                <a class="btn btn-outline-dark" href="{{ url_for('customers.add_customer') }}">Add new</a>
             </div>
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -18,10 +18,9 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Category</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Price</th>
+                <th scope="col">Firstname</th>
+                <th scope="col">Lastname</th>
+                <th scope="col">Status</th>
                 <th scope="col" class="text-center">Image</th>
                 <th scope="col" class="text-center">Actions</th>
             </tr>
@@ -30,34 +29,33 @@
             {% for row in rows %}
                 <tr>
                     <th scope="row">{{ row.id }}</th>
-                    <td>{{ row.name }}</td>
-                    <td>{{ 'N/A' if row.cname is none else row.cname}}</td>
-                    <td>{{ 'Out of stock' if row.qty == 0 else "x{}".format(row.qty)}}</td>
-                    <td>{{"${:,.2f}".format(row.price_in_cent / 100)}}</td>
+                    <td>{{ row.firstname }}</td>
+                    <td>{{ row.lastname }}</td>
+                    <td>{{ row.Status }}</td>
                     <td class="text-center position-relative">
                         {% if row.image is none or row.image == '' %}
                             N/A
                         {% else %}
-                            <img class="sm-image" src="{{ url_for('static', filename='image/product/' + row.image if '.' in row.image else row.image + '.jpg') }}" alt="{{ row.image }}">
-                            <img class="lg-image" src="{{ url_for('static', filename='image/product/' + row.image if '.' in row.image else row.image + '.jpg') }}" alt="{{ row.image }}">
+                            <img class="sm-image" src="{{ url_for('static', filename='image/customer/' + row.image if '.' in row.image else row.image + '.jpg') }}" alt="{{ row.image }}">
+                            <img class="lg-image" src="{{ url_for('static', filename='image/customer/' + row.image if '.' in row.image else row.image + '.jpg') }}" alt="{{ row.image }}">
                         {% endif %}
                     </td>
                     <td class="text-center">
-                        <form action="{{ url_for('products.detail_product') }}" method="post">
+                        <form action="{{ url_for('customers.detail_customer') }}" method="post">
                             <input type="hidden" value="{{ row.id }}" name="id">
                             <input type="hidden" value="{{ page }}" name="page_id">
                             <button type="submit" title="detail">
                                 <span class="fas fa-eye action-btn"></span>
                             </button>
                         </form>
-                        <form action="{{ url_for('products.edit_product') }}" method="post">
+                        <form action="{{ url_for('customers.edit_customer') }}" method="post">
                             <input type="hidden" value="{{ row.id }}" name="id">
                             <input type="hidden" value="{{ page }}" name="page_id">
                             <button type="submit" title="Edit">
                                 <span class="fas fa-edit action-btn"></span>
                             </button>
                         </form>
-                        <form action="{{ url_for('products.delete_product') }}" method="post">
+                        <form action="{{ url_for('customers.delete_customer') }}" method="post">
                             <input type="hidden" value="{{ row.id }}" name="id">
                             <input type="hidden" value="{{ page }}" name="page_id">
                             <input type="hidden" value="{{ row.image }}" name="image_upload">
@@ -78,112 +76,112 @@
                 {% if page > 1 %}
                     <li class="page-item">
                         <a class="page-link"
-                           href="{{ url_for('products.product', page=1) }}">First</a>
+                           href="{{ url_for('customers.customer', page=1) }}">First</a>
                     </li>
                 {% endif %}
                 <li class="page-item {{ 'disabled' if page==1 }}">
                     <a class="page-link"
-                       href="{{ url_for('products.product', page=page-1) }}"><</a>
+                       href="{{ url_for('customers.customer', page=page-1) }}"><</a>
                 </li>
 
                 {% if total_pages < 6 %}
                     {% for n in range(total_pages) %}
                         <li class="page-item {{ 'active' if page==n+1 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=n+1) }}>{{ n+1 }}</a></li>
                     {% endfor %}
                 {% else %}
                     {% if page < 4 %}
                         <li class="page-item {{ 'active' if page==1 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=1) }}>1</a></li>
                         <li class="page-item {{ 'active' if page==2 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=2) }}>2</a></li>
                         <li class="page-item {{ 'active' if page==3 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=3) }}>3</a></li>
                         <li class="page-item {{ 'active' if page==4 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=4) }}>4</a></li>
                         <li class="page-item {{ 'active' if page==5 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=5) }}>5</a></li>
                     {% elif page>1 and page<total_pages-2 %}
                         <li class="page-item {{ 'active' if page==page-2 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-2) }}>{{ page-2 }}</a></li>
                         <li class="page-item {{ 'active' if page==page-1 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-1) }}>{{ page-1 }}</a></li>
                         <li class="page-item {{ 'active' if page==page }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page) }}>{{ page }}</a></li>
                         <li class="page-item {{ 'active' if page==page+1 }}">
-                            <a class="page-link" href={{ url_for('products.product',page=page+1) }}>
+                            <a class="page-link" href={{ url_for('customers.customer',page=page+1) }}>
                                 {{ page+1 }}</a></li>
                         <li class="page-item {{ 'active' if page==page+2 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page+2) }}>{{ page+2 }}</a></li>
                     {% elif page==total_pages-2 %}
                         <li class="page-item {{ 'active' if page==page-2 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-2) }}>{{ page-2 }}</a></li>
                         <li class="page-item {{ 'active' if page==page-1 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-1) }}>{{ page-1 }}</a></li>
                         <li class="page-item {{ 'active' if page==page }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page) }}>{{ page }}</a></li>
                         <li class="page-item {{ 'active' if page==total_pages-1 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=total_pages-1) }}>{{ total_pages-1 }}</a></li>
                         <li class="page-item {{ 'active' if page==total_pages }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=total_pages) }}>{{ total_pages }}</a></li>
                     {% elif page==total_pages-1 %}
                         <li class="page-item {{ 'active' if page==page-3 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-3) }}>{{ page-3 }}</a></li>
                         <li class="page-item {{ 'active' if page==page-2 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-2) }}>{{ page-2 }}</a></li>
                         <li class="page-item {{ 'active' if page==page-1 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-1) }}>{{ page-1 }}</a></li>
                         <li class="page-item {{ 'active' if page==page }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page) }}>{{ page }}</a></li>
                         <li class="page-item {{ 'active' if page==total_pages }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=total_pages) }}>{{ total_pages }}</a></li>
                     {% elif page==total_pages %}
                         <li class="page-item {{ 'active' if page==page-4 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-4) }}>{{ page-4 }}</a></li>
                         <li class="page-item {{ 'active' if page==page-3 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-3) }}>{{ page-3 }}</a></li>
                         <li class="page-item {{ 'active' if page==page-2 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-2) }}>{{ page-2 }}</a></li>
                         <li class="page-item {{ 'active' if page==page-1 }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page-1) }}>{{ page-1 }}</a></li>
                         <li class="page-item {{ 'active' if page==page }}">
-                            <a class="page-link" href={{ url_for('products.product',
+                            <a class="page-link" href={{ url_for('customers.customer',
                                     page=page) }}>{{ page }}</a></li>
                     {% endif %}
                 {% endif %}
 
                 <li class="page-item {{ 'disabled' if page==total_pages }}">
                     <a class="page-link"
-                       href="{{ url_for('products.product', page=page+1) }}">></a>
+                       href="{{ url_for('customers.customer', page=page+1) }}">></a>
                 </li>
                 {% if page < total_pages %}
                     <li class="page-item">
                         <a class="page-link"
-                           href="{{ url_for('products.product', page=total_pages) }}">Last</a>
+                           href="{{ url_for('customers.customer', page=total_pages) }}">Last</a>
                     </li>
                 {% endif %}
             </ul>

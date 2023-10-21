@@ -217,7 +217,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="{{ url_for('students.student') }}" class="nav-link {% if current_link == 'students.student'
                         or current_link == 'students.add_student' or current_link == 'students.edit_student'
                         or current_link == 'students.detail_student' %}active{% endif %}">
-                            <i class="fas fa-user nav-icon"></i>
+                            <i class="fas fa-user-graduate nav-icon"></i>
                             <p>Student</p>
                         </a>
                     </li>
@@ -258,6 +258,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('customers.customer') }}" class="nav-link {% if current_link == 'customers.customer'
+                        or current_link == 'customers.add_customer' or current_link == 'customers.edit_customer'
+                        or current_link == 'customers.detail_customer' %}active{% endif %}">
+                            <i class="fas fa-user-astronaut nav-icon"></i>
+                            <p>Customer</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('users.user') }}" class="nav-link {% if current_link == 'users.user'
+                        or current_link == 'users.add_user' or current_link == 'users.edit_user'
+                        or current_link == 'users.detail_user' %}active{% endif %}">
+                            <i class="fas fa-user nav-icon"></i>
+                            <p>User</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('currencies.currency') }}" class="nav-link {% if current_link == 'currencies.currency'
+                        or current_link == 'currencies.add_currency' or current_link == 'currencies.edit_currency'
+                        or current_link == 'currencies.detail_currency' %}active{% endif %}">
+                            <i class="fas fa-money-bill nav-icon"></i>
+                            <p>Currency</p>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">

@@ -201,10 +201,10 @@ def delete_product():
             image = request.form['image_upload']
 
             # Delete the old image file if it's not the default image
-            if image != 'default_img':
-                image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image)
-                if os.path.isfile(image_path):
-                    os.remove(image_path)
+            # if image != 'default_img':
+            image_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image)
+            if os.path.isfile(image_path):
+                os.remove(image_path)
 
             query = f"DELETE FROM product WHERE id = ?"
             execute_query(query, (pid,), is_insert=True)

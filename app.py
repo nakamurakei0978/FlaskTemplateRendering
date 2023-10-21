@@ -6,14 +6,22 @@ from flask import Flask, render_template, request
 from route.student import students
 from route.product import products
 from route.product_category import product_categories
+from route.customer import customers
+from route.user import users
+from route.currency import currencies
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'static/image/student'
 app.config['UPLOAD_FOLDER'] = 'static/image/product'
+app.config['UPLOAD_FOLDER'] = 'static/image/customer'
+app.config['UPLOAD_FOLDER'] = 'static/image/user'
 
 app.register_blueprint(students)
 app.register_blueprint(products)
 app.register_blueprint(product_categories)
+app.register_blueprint(customers)
+app.register_blueprint(users)
+app.register_blueprint(currencies)
 
 products = [
     {
