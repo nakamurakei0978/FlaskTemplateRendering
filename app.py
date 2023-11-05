@@ -113,6 +113,9 @@ def product_detail(name, price, discount, category, rating, image):
                            category=category, rating=rating, image=image, description=description)
 
 
+@app.route('/pos')
+def pos():
+    return render_template('pos/circleColor.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
