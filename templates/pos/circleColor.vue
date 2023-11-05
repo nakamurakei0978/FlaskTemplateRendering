@@ -33,6 +33,15 @@
     </style>
 </head>
 <body>
+<script type="importmap">
+  {
+    "imports": {
+      "vue": "/../../static/js/vue.esm-browser.min.js"
+    }
+  }
+</script>
+
+
 <div id="app" class="main">
     <div class="container">
         <div :class="'circle bg-'+color" v-text="msg"></div>
@@ -45,7 +54,8 @@
 
 
 <script type="module">
-    import {createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+    // import {createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+    import {createApp, ref} from 'vue'
 
     createApp({
         setup() {
@@ -87,3 +97,5 @@
 </script>
 </body>
 </html>
+<script setup>
+</script>
