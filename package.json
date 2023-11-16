@@ -2,6 +2,6 @@
   "name": "FlaskTemplateRendering",
   "version": "1.0.0",
   "dependencies": {
-    "vue": "^3.3.7"
+    "vue": "^3.3.8"
   }
 }

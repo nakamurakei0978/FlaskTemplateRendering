@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" xmlns="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>POS</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Courier New", Courier, monospace !important;
+            background: rgba(229, 229, 229);
+        }
+
+        #app {
+            display: grid;
+            grid-template-columns: 950px 1fr;
+            height: 100dvh;
+        }
+
+        .items {
+            background: rgba(229, 229, 229);
+            padding: 0 2rem 1rem 2rem;
+            position: relative;
+            overflow-y: scroll;
+            direction: rtl;
+            scrollbar-gutter: stable both-edges;
+            scroll-behavior: smooth;
+            margin: 0 0.1rem;
+        }
+
+        .items::-webkit-scrollbar {
+            width: 8px;
+            height: 20px;
+        }
+
+        .items::-webkit-scrollbar-thumb {
+            background: rgb(189, 189, 189);
+            border-radius: 5px;
+        }
+        .items::-webkit-scrollbar-thumb:hover {
+            background: rgb(113, 113, 113);
+        }
+        .items::-webkit-scrollbar-track {
+            background: transparent;
+            margin-block: 0.3rem;
+        }
+
+
+
+        .search {
+            width: 100%;
+            border: none;
+            height: 3rem;
+            border-radius: 2rem;
+            padding: 0 1rem;
+            font-size: 1rem;
+        }
+
+        .search:focus {
+            outline: none;
+        }
+
+        .pagination {
+
+        }
+
+        .listItems {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-gap: 1rem;
+            direction: ltr;
+        }
+
+        .item {
+            background: #0a0e14;
+            height: 12rem;
+            border-radius: 2rem;
+            padding: 1rem;
+        }
+        .lists{
+            background: white;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="items">
+        <div style="direction: ltr; position:sticky; width: 100%; top: 0; background: rgba(229, 229, 229); padding-bottom: 1rem">
+            <div>
+                <h1 style="margin: 0; margin-bottom: 1rem; padding-top: 1rem;">POS System</h1>
+            </div>
+            <div>
+                <input type="search" name="search" id="" class="search" placeholder="Search...">
+            </div>
+        </div>
+
+        <div class="pagination">
+
+        </div>
+        <div class="listItems">
+            <div class="item">1</div>
+            <div class="item">2</div>
+            <div class="item">3</div>
+            <div class="item">4</div>
+            <div class="item">4</div>
+            <div class="item">4</div>
+            <div class="item">4</div>
+            <div class="item">1</div>
+            <div class="item">2</div>
+            <div class="item">3</div>
+            <div class="item">4</div>
+            <div class="item">4</div>
+            <div class="item">4</div>
+            <div class="item">4</div>
+        </div>
+    </div>
+    <div class="lists">
+
+    </div>
+</div>
+</body>
+</html>
+<script type="module">
+    import {createApp, ref} from "../../static/js/vue.esm-browser.min.js";
+
+    createApp({
+        setup() {
+            const message = ref('Hello vue!')
+            return {
+                message
+            }
+        }
+    }).mount('#app')
+</script>

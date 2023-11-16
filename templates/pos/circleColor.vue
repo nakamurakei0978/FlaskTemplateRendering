@@ -62,7 +62,7 @@
             const msg = ref('Hello')
             const color = ref('primary')
 
-            let index = 0
+            let index = 1
             const colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark', 'link'];
 
             const changeColor = () => {
@@ -85,7 +85,7 @@
                     intervalId = null
                 } else if (btn.value === 'Start') {
                     btn.value = 'Stop'
-                    intervalId = setInterval(randomColor, 500) // Change color every second
+                    intervalId = setInterval(randomColor, 500) // Change color every millisecond
                 }
             }
 
@@ -97,5 +97,3 @@
 </script>
 </body>
 </html>
-<script setup>
-</script>

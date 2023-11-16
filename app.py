@@ -117,5 +117,9 @@ def product_detail(name, price, discount, category, rating, image):
 def circle():
     return render_template('pos/circleColor.vue')
 
+@app.route('/pos')
+def pos():
+    return render_template('pos/pos.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
