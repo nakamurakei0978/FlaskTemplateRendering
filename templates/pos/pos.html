@@ -99,6 +99,19 @@
         background: white;
         width: 100%;
       }
+
+
+      @media screen and (max-width: 1200px){
+        #app {
+            grid-template-columns: 760.3px 1fr;
+          }
+        .listItems {
+            grid-template-columns: 1fr 1fr 1fr;
+          }
+        .items>div{
+            width: 690px !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -136,6 +149,7 @@
         <div class="listItems">
           <div
             class="item unselectable"
+            style="width: 172.7px;"
             v-for="list in filter"
             v-text="list"
             @click="addToCart(list)"
