@@ -1,195 +1,239 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns="">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>POS</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Courier New", Courier, monospace !important;
-            background: rgba(229, 229, 229);
-        }
+      .unselectable {
+        -webkit-user-select: none; /* Chrome, Safari and Opera */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Courier New", Courier, monospace !important;
+        background: rgba(229, 229, 229);
+      }
 
-        #app {
-            display: grid;
-            grid-template-columns: 950px 1fr;
-            height: 100dvh;
-            position:fixed;
-            width: 100%;
-        }
+      #app {
+        display: grid;
+        grid-template-columns: 950px 1fr;
+        height: 100dvh;
+        position: fixed;
+        width: 100%;
+      }
 
-        .items {
-            background: rgba(229, 229, 229);
-            padding: 0 2rem 7rem 2rem;
-            position: relative;
-            overflow-y: scroll;
-            direction: rtl;
-            scrollbar-gutter: stable both-edges;
-            scroll-behavior: smooth;
-            margin: 0 0.1rem;
-        }
+      .items {
+        background: rgba(229, 229, 229);
+        padding: 9rem 2rem 7rem 2rem;
+        position: relative;
+        overflow-y: scroll;
+        direction: rtl;
+        scrollbar-gutter: stable both-edges;
+        scroll-behavior: smooth;
+        margin: 0 0.1rem;
+      }
 
-        .items::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
+      .items::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
 
-        .items::-webkit-scrollbar-thumb {
-            background: rgb(189, 189, 189);
-            border-radius: 5px;
-        }
-        .items::-webkit-scrollbar-thumb:hover {
-            background: rgb(113, 113, 113);
-        }
-        .items::-webkit-scrollbar-track {
-            background: transparent;
-            margin-block: 0.3rem;
-        }
+      .items::-webkit-scrollbar-thumb {
+        background: rgb(189, 189, 189);
+        border-radius: 5px;
+      }
+      .items::-webkit-scrollbar-thumb:hover {
+        background: rgb(113, 113, 113);
+      }
+      .items::-webkit-scrollbar-track {
+        background: transparent;
+        margin-block: 0.3rem;
+      }
 
+      .search {
+        width: 100%;
+        border: none;
+        height: 3rem;
+        border-radius: 2rem;
+        padding: 0 1rem;
+        font-size: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+        transition: box-shadow 300ms ease;
+      }
 
+      .search:focus {
+        outline: none;
+        box-shadow: rgb(97, 2, 116, 0.5) 0px 5px 5px 0px;
+      }
 
-        .search {
-            width: 100%;
-            border: none;
-            height: 3rem;
-            border-radius: 2rem;
-            padding: 0 1rem;
-            font-size: 1rem;
-        }
+      .listItems {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-gap: 1rem;
+        direction: ltr;
+      }
 
-        .search:focus {
-            outline: none;
-        }
-
-        .listItems {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-gap: 1rem;
-            direction: ltr;
-
-        }
-
-        .item {
-            background: #0a0e14;
-            height: 12rem;
-            border-radius: 2rem;
-            padding: 1rem;
-        }
-        .lists{
-            background: white;
-            width: 100%;
-        }
-        .category{
-            position: fixed;
-            bottom: 0; 
-            left: 12px;
-            background: white;
-            direction:ltr;
-            width: 924px;
-            height: 7rem;
-            border-radius: 2rem;
-            overflow-x: auto;
-            display:grid;
-            place-items:center;
-            scrollbar-gutter: stable;
-            scroll: smooth;
-        }
-        .category::-webkit-scrollbar {
-            width: 8px;
-            height: 0px;
-        }
-
-        .category::-webkit-scrollbar-thumb {
-            background: rgb(189, 189, 189);
-            border-radius: 5px;
-        }
-        .category::-webkit-scrollbar-thumb:hover {
-            background: rgb(113, 113, 113);
-        }
-        .category::-webkit-scrollbar-track {
-            background: transparent;
-            margin: 1rem;
-        }
-        .category>div{
-            gap:1rem;
-            display: flex;
-            flex-gap:0.5rem;
-            margin: 0 1rem;
-        }
-        .category>div>button{
-            height:4rem;
-            border:none;
-            border-radius:1rem;
-            min-width: 5rem;
-            padding:1rem;
-        }
+      .item {
+        background: white;
+        height: 12rem;
+        border-radius: 2rem;
+        padding: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+        transition: box-shadow 300ms ease;
+      }
+      .item:hover {
+        box-shadow: rgb(97, 2, 116, 0.5) 0px 5px 5px 0px;
+      }
+      .item:active {
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+      }
+      .lists {
+        background: white;
+        width: 100%;
+      }
     </style>
-</head>
-<body>
-<div id="app">
-    <div class="items">
-        <div style="direction: ltr; position:sticky; width: 100%; top: 0; background: rgba(229, 229, 229); padding-bottom: 1rem">
-            <div>
-                <h1 style="margin: 0; margin-bottom: 1rem; padding-top: 1rem;">POS System</h1>
-            </div>
-            <div>
-                <input type="search" name="search" id="" class="search" placeholder="Search...">
-            </div>
+  </head>
+  <body>
+    <div id="app">
+      <div class="items">
+        <div
+          style="
+            direction: ltr;
+            position: fixed;
+            width: 885px;
+            top: 0;
+            left: 2rem;
+            background: rgba(229, 229, 229);
+            padding-bottom: 1rem;
+          "
+        >
+          <div style="display: flex; justify-content: space-between;">
+            <h1 style="margin: 0; margin-bottom: 1rem; padding-top: 1rem">
+              POS System
+            </h1>
+            <h2 v-text="currentTime"></h2>
+          </div>
+          <div>
+            <input
+              v-model="search"
+              type="search"
+              name="search"
+              id=""
+              class="search"
+              placeholder="Search..."
+            />
+          </div>
         </div>
 
         <div class="listItems">
-            <div class="item" v-for="list in lists" v-text="list" @click="addToCart(list)"></div>
+          <div
+            class="item unselectable"
+            v-for="list in filter"
+            v-text="list"
+            @click="addToCart(list)"
+          ></div>
         </div>
-
-        <div class="category">
-            <div>
-                <button>Drink</button>
-                <button>FastFood</button>
-                <button>Drink</button>
-                <button>FastFood</button>
-                <button>Drink</button>
-                <button>FastFood</button>
-                <button>Drink</button>
-                <button>FastFood</button>
-                <button>Drink</button>
-                <button>FastFood</button>
-                <button>Drink</button>
-                <button>FastFood</button>
-            </div>
-        </div>
-    </div>
-    <div class="lists">
+      </div>
+      <div class="lists">
         <div>
-            <h1 style="margin: 0; margin-bottom: 1rem; padding-top: 1rem; text-align:center;">Cart</h1>
+          <h1
+            style="
+              margin: 0;
+              margin-bottom: 1rem;
+              padding-top: 1rem;
+              text-align: center;
+            "
+          >
+            Cart
+          </h1>
         </div>
         <div>
-            <ul>
-                <li v-for="cart in carts" v-text="cart"></li>
-            </ul>
+          <ul>
+            <li v-for="cart in carts" v-text="cart"></li>
+          </ul>
         </div>
+        <p v-text="search"></p>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>
 <script type="module">
-    import {createApp, ref} from "../../static/js/vue.esm-browser.min.js";
+  import {
+    createApp,
+    ref,
+    computed,
+  } from "../../static/js/vue.esm-browser.min.js";
 
-    createApp({
-        setup() {
-            const message = ref('Hello vue!')
-            const lists = [1,2,3,4,5,6,7,8]
-            const carts = ref([])
-            const addToCart = (list)=>{
-                carts.value.push(list)
-            }
-
-            return {
-                message, lists, carts, addToCart
-            }
+  createApp({
+    setup() {
+      const message = ref("Hello vue!");
+      const search = ref("");
+      const lists = [
+        { id: 1, name: "Vegetables", qty: 1 },
+        { id: 2, name: "Fruits", qty: 1 },
+        { id: 3, name: "Grains", qty: 1 },
+        { id: 4, name: "Meat", qty: 1 },
+        { id: 5, name: "Fish", qty: 1 },
+        { id: 6, name: "Dairy", qty: 1 },
+        { id: 7, name: "Eggs", qty: 1 },
+        { id: 8, name: "Others", qty: 1 },
+        { id: 9, name: "Fruits", qty: 1 },
+        { id: 10, name: "Grains", qty: 1 },
+        { id: 11, name: "Meat", qty: 1 },
+        { id: 12, name: "Fish", qty: 1 },
+        { id: 13, name: "Dairy", qty: 1 },
+        { id: 14, name: "Eggs", qty: 1 },
+        { id: 15, name: "Others", qty: 1 },
+      ];
+      const filter = computed(() => {
+        if (search.value) {
+          return lists.filter((item) => {
+            return search.value
+              .toLowerCase()
+              .split(" ")
+              .every((v) => item.name.toLowerCase().includes(v));
+          });
+        } else {
+          return lists;
         }
-    }).mount('#app')
+      });
+
+      const carts = ref([]);
+      const addToCart = (list) => {
+        const itemInCart = carts.value.find((item) => item.id === list.id);
+        if (itemInCart) {
+          // If the item is already in the cart, increment the quantity
+          itemInCart.qty++;
+        } else {
+          carts.value.push(list);
+        }
+      };
+
+
+
+
+      const currentTime = ref(new Date().toLocaleTimeString());
+      const updateTime = () => {
+        currentTime.value = new Date().toLocaleTimeString();
+      };
+      setInterval(updateTime ,1000)
+      return {
+        message,
+        lists,
+        carts,
+        addToCart,
+        search,
+        filter,
+        currentTime
+      };
+    },
+  }).mount("#app");
 </script>
