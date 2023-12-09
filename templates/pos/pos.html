@@ -1,254 +1,289 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>POS</title>
     <style>
-      .unselectable {
-        -webkit-user-select: none; /* Chrome, Safari and Opera */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE/Edge */
-        user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Courier New", Courier, monospace !important;
-        background: rgba(229, 229, 229);
-      }
-
-      #app {
-        display: grid;
-        grid-template-columns: 950px 1fr;
-        height: 100dvh;
-        position: fixed;
-        width: 100%;
-      }
-
-      .items {
-        background: rgba(229, 229, 229);
-        padding: 9rem 2rem 7rem 2rem;
-        position: relative;
-        overflow-y: scroll;
-        direction: rtl;
-        scrollbar-gutter: stable both-edges;
-        scroll-behavior: smooth;
-        margin: 0 0.1rem;
-      }
-
-      .items::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-
-      .items::-webkit-scrollbar-thumb {
-        background: rgb(189, 189, 189);
-        border-radius: 5px;
-      }
-      .items::-webkit-scrollbar-thumb:hover {
-        background: rgb(113, 113, 113);
-      }
-      .items::-webkit-scrollbar-track {
-        background: transparent;
-        margin-block: 0.3rem;
-      }
-
-      .search {
-        width: 100%;
-        border: none;
-        height: 3rem;
-        border-radius: 2rem;
-        padding: 0 1rem;
-        font-size: 1rem;
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
-        transition: box-shadow 300ms ease;
-      }
-
-      .search:focus {
-        outline: none;
-        box-shadow: rgb(97, 2, 116, 0.5) 0px 5px 5px 0px;
-      }
-
-      .listItems {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-gap: 1rem;
-        direction: ltr;
-      }
-
-      .item {
-        background: white;
-        height: 12rem;
-        border-radius: 2rem;
-        padding: 1rem;
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
-        transition: box-shadow 300ms ease;
-      }
-      .item:hover {
-        box-shadow: rgb(97, 2, 116, 0.5) 0px 5px 5px 0px;
-      }
-      .item:active {
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
-      }
-      .lists {
-        background: white;
-        width: 100%;
-      }
-
-
-      @media screen and (max-width: 1200px){
-        #app {
-            grid-template-columns: 760.3px 1fr;
-          }
-        .listItems {
-            grid-template-columns: 1fr 1fr 1fr;
-          }
-        .items>div{
-            width: 690px !important;
+        .unselectable {
+            -webkit-user-select: none; /* Chrome, Safari and Opera */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE/Edge */
+            user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
         }
-      }
-    </style>
-  </head>
-  <body>
-    <div></div>
-    <div id="app">
-      <div class="items">
-        <div
-          style="
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Courier New", Courier, monospace !important;
+            background: rgba(229, 229, 229);
+        }
+
+        #app {
+            display: grid;
+            grid-template-columns: 950px 1fr;
+            height: 100dvh;
+            position: fixed;
+            width: 100%;
+        }
+
+        .items {
+            background: rgba(229, 229, 229);
+            padding: 9rem 2rem 7rem 2rem;
+            position: relative;
+            overflow-y: scroll;
+            direction: rtl;
+            scrollbar-gutter: stable both-edges;
+            scroll-behavior: smooth;
+            margin: 0 0.1rem;
+        }
+
+        .items::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        .items::-webkit-scrollbar-thumb {
+            background: rgb(189, 189, 189);
+            border-radius: 5px;
+        }
+
+        .items::-webkit-scrollbar-thumb:hover {
+            background: rgb(113, 113, 113);
+        }
+
+        .items::-webkit-scrollbar-track {
+            background: transparent;
+            margin-block: 0.3rem;
+        }
+        .header{
             direction: ltr;
             position: fixed;
-            width: 885px;
+            width: 890px;
             top: 0;
-            left: 2rem;
+            left: 1.8rem;
             background: rgba(229, 229, 229);
             padding-bottom: 1rem;
-          "
-        >
-          <div style="display: flex; justify-content: space-between;">
-            <h1 style="margin: 0; margin-bottom: 1rem; padding-top: 1rem">
-              POS System
-            </h1>
-            <h2 v-text="currentTime"></h2>
-          </div>
-          <div>
-            <input
-              v-model="search"
-              type="search"
-              name="search"
-              id=""
-              class="search"
-              placeholder="Search..."
-            />
-          </div>
+        }
+
+        .search {
+            width: 100%;
+            border: none;
+            height: 3rem;
+            border-radius: 2rem;
+            padding: 0 1rem;
+            font-size: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+            transition: box-shadow 300ms ease;
+        }
+
+        .search:focus {
+            outline: none;
+            box-shadow: rgb(97, 2, 116, 0.5) 0px 5px 5px 0px;
+        }
+
+        .listItems {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-gap: 1rem;
+            direction: ltr;
+        }
+
+        .item {
+            background: white;
+            height: 12rem;
+            border-radius: 2rem;
+            padding: 1rem;
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+            transition: box-shadow 300ms ease;
+        }
+
+        .item:hover {
+            box-shadow: rgb(97, 2, 116, 0.5) 0px 5px 5px 0px;
+        }
+
+        .item:active {
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 5px 0px;
+        }
+
+        .item > div {
+            height: 80%;
+        }
+
+        .item > div > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1rem 1rem 0 0;
+            pointer-events: none;
+        }
+
+        .lists {
+            background: white;
+            width: 100%;
+        }
+
+
+        @media screen and (max-width: 1200px) {
+            #app {
+                grid-template-columns: 760.3px 1fr;
+            }
+
+            .listItems {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+            .items > div {
+                width: 685px !important;
+            }
+            .header{
+                width: 890px;
+                left: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div></div>
+<div id="app" class="unselectable">
+    <div class="items">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between;">
+                <h1 style="margin: 0; margin-bottom: 1rem; padding-top: 1rem">
+                    POS System
+                </h1>
+                <h2 v-text="currentTime"></h2>
+            </div>
+            <div>
+                <input
+                        v-model="search"
+                        type="search"
+                        name="search"
+                        id=""
+                        class="search"
+                        placeholder="Search..."
+                />
+            </div>
         </div>
 
         <div class="listItems">
-          <div
-            class="item unselectable"
-            style="width: 172.7px;"
-            v-for="list in filter"
-            v-text="list"
-            @click="addToCart(list)"
-          ></div>
+            <div
+                    class="item"
+                    style="width: 172.7px;"
+                    v-for="list in filter"
+                    @click="addToCart(list)"
+            >
+                <div>
+                    <img src="/static/image/student/abc_def.jpg" alt="">
+                </div>
+                <h5 v-text="list.name" style="margin: 0.5rem 0 0; border-bottom: 1px solid rgb(97, 2, 116, 0.5)"></h5>
+                <span style="  display: block; text-align: end;
+                    margin-top: 0.2rem; overflow-x: hidden; border-radius: 1rem;">
+                    <p style="padding: 0 0.5rem; background: rgb(97, 2, 116, 0.5);color: white;display: inline;
+                    margin: 0;text-align: center; border-radius: 1rem;">
+                    $5.00</p>
+                </span>
+            </div>
         </div>
-      </div>
-      <div class="lists">
+    </div>
+    <div class="lists">
         <div>
-          <h1
-            style="
+            <h1
+                    style="
               margin: 0;
               margin-bottom: 1rem;
               padding-top: 1rem;
               text-align: center;
             "
-          >
-            Cart
-          </h1>
+            >
+                Cart
+            </h1>
         </div>
         <div>
-          <ul>
-            <li v-for="cart in carts" v-text="cart"></li>
-          </ul>
+            <ul>
+                <li v-for="cart in carts" v-text="cart"></li>
+            </ul>
         </div>
-        <p v-text="search"></p>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>
 <script type="module">
-  import {
-    createApp,
-    ref,
-    computed,
-  } from "../../static/js/vue.esm-browser.min.js";
+    import {
+        createApp,
+        ref,
+        computed,
+        onMounted,
+    } from "../../static/js/vue.esm-browser.min.js";
 
-  createApp({
-    setup() {
-      const message = ref("Hello vue!");
-      const search = ref("");
-      const lists = [
-        { id: 1, name: "Vegetables", qty: 1 },
-        { id: 2, name: "Fruits", qty: 1 },
-        { id: 3, name: "Grains", qty: 1 },
-        { id: 4, name: "Meat", qty: 1 },
-        { id: 5, name: "Fish", qty: 1 },
-        { id: 6, name: "Dairy", qty: 1 },
-        { id: 7, name: "Eggs", qty: 1 },
-        { id: 8, name: "Others", qty: 1 },
-        { id: 9, name: "Fruits", qty: 1 },
-        { id: 10, name: "Grains", qty: 1 },
-        { id: 11, name: "Meat", qty: 1 },
-        { id: 12, name: "Fish", qty: 1 },
-        { id: 13, name: "Dairy", qty: 1 },
-        { id: 14, name: "Eggs", qty: 1 },
-        { id: 15, name: "Others", qty: 1 },
-      ];
-      const filter = computed(() => {
-        if (search.value) {
-          return lists.filter((item) => {
-            return search.value
-              .toLowerCase()
-              .split(" ")
-              .every((v) => item.name.toLowerCase().includes(v));
-          });
-        } else {
-          return lists;
-        }
-      });
+    createApp({
+        setup() {
+            const message = ref("Hello vue!");
+            //lists of product
+            const search = ref("");
 
-      const carts = ref([]);
-      const addToCart = (list) => {
-        const itemInCart = carts.value.find((item) => item.id === list.id);
-        if (itemInCart) {
-          // If the item is already in the cart, increment the quantity
-          itemInCart.qty++;
-        } else {
-          carts.value.push(list);
-        }
-      };
+            const lists = [
+                {id: 1, name: "Vegetables", categoryId: 1},
+                {id: 2, name: "Fruits", categoryId: 1},
+                {id: 3, name: "Grains", categoryId: 1},
+                {id: 4, name: "Meat", categoryId: 1},
+                {id: 5, name: "Fish", categoryId: 1},
+                {id: 6, name: "Dairy", categoryId: 1},
+                {id: 7, name: "Eggs", categoryId: 1},
+                {id: 8, name: "Others", categoryId: 1},
+                {id: 9, name: "Fruits", categoryId: 2},
+                {id: 10, name: "Grains", categoryId: 2},
+                {id: 11, name: "Meat", categoryId: 2},
+                {id: 12, name: "Fish", categoryId: 2},
+                {id: 13, name: "Dairy", categoryId: 3},
+                {id: 14, name: "Eggs", categoryId: 3},
+                {id: 15, name: "Others", categoryId: 3},
+            ];
+            const filter = computed(() => {
+                if (search.value) {
+                    return lists.filter((item) => {
+                        return search.value
+                            .toLowerCase()
+                            .split(" ")
+                            .every((v) => item.title.toLowerCase().includes(v));
+                    });
+                } else {
+                    return lists;
+                }
+            });
+
+            //cart
+            const carts = ref([]);
+            const addToCart = (list) => {
+                const itemInCart = carts.value.find((item) => item.id === list.id);
+                if (itemInCart) {
+                    // If the item is already in the cart, increment the quantity
+                    itemInCart.qty++;
+                } else {
+                    list.qty = 1;
+                    carts.value.push(list);
+                }
+            };
 
 
-
-
-      const currentTime = ref(new Date().toLocaleTimeString());
-      const updateTime = () => {
-        currentTime.value = new Date().toLocaleTimeString();
-      };
-      setInterval(updateTime ,1000)
-      return {
-        message,
-        lists,
-        carts,
-        addToCart,
-        search,
-        filter,
-        currentTime
-      };
-    },
-  }).mount("#app");
+            const currentTime = ref(new Date().toLocaleTimeString());
+            const updateTime = () => {
+                currentTime.value = new Date().toLocaleTimeString();
+            };
+            setInterval(updateTime, 1000)
+            return {
+                message,
+                lists,
+                carts,
+                addToCart,
+                search,
+                filter,
+                currentTime
+            };
+        },
+    }).mount("#app");
 </script>

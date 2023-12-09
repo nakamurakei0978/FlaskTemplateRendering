@@ -1,14 +1,26 @@
 from datetime import datetime
 from unicodedata import decimal
 
-from flask import Blueprint, render_template, request, redirect, current_app
+from flask import Blueprint, render_template, request, redirect, current_app, jsonify
 from werkzeug.utils import secure_filename
 import os
-from config import execute_query
+from config import execute_query, conn
+from sqlalchemy import text
 
 product_categories = Blueprint('product_categories', __name__)
 
-
+#api_category
+@product_categories.route('/get_product_categories')
+def get_product_categories():
+    all_categories = conn.execute(text('select * from category'))
+    conn.commit()
+    json_string = []
+    for p in all_categories:
+        json_string.append({
+            'id': p.id,
+            'name': p.name,
+        })
+    return jsonify(json_string)
 # ** filter db and get all data and throw to student list page
 @product_categories.route('/admin/category')
 def category():

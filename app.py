@@ -11,6 +11,7 @@ from route.user import users
 from route.currency import currencies
 
 app = Flask(__name__)
+
 app.config['STUDENT_UPLOAD_FOLDER'] = 'static/image/student'
 app.config['PRODUCT_UPLOAD_FOLDER'] = 'static/image/product'
 app.config['CUSTOMER_UPLOAD_FOLDER'] = 'static/image/customer'
@@ -23,52 +24,54 @@ app.register_blueprint(customers)
 app.register_blueprint(users)
 app.register_blueprint(currencies)
 
-products = [
-    {
-        'id': 1,
-        'name': 'coca',
-        'price': 10,
-        'discount': 50,
-        'category': 'drink',
-        'rating': 4.8,
-    },
-]
-categories = [
-    {
-        'id': 1,
-        'name': 'drink',
-    },
-    {
-        'id': 2,
-        'name': 'icecream',
-    },
-    {
-        'id': 3,
-        'name': 'Food',
-    },
-    {
-        'id': 4,
-        'name': 'Fast Food',
-    },
-    {
-        'id': 5,
-        'name': 'Wine',
-    },
-    {
-        'id': 6,
-        'name': 'Cafe',
-    }
-]
-for item in range(12):
-    category = random.choice(categories)
-    products.append({
-        'id': 1,
-        'name': randomname.get_name(noun='food'),
-        'price': random.randrange(1, 101, 2),
-        'discount': random.randrange(10, 51),
-        'category': category['name'],
-        'rating': random.randrange(0, 51)
-    })
+
+# old.products
+# products = [
+#     {
+#         'id': 1,
+#         'name': 'coca',
+#         'price': 10,
+#         'discount': 50,
+#         'category': 'drink',
+#         'rating': 4.8,
+#     },
+# ]
+# categories = [
+#     {
+#         'id': 1,
+#         'name': 'drink',
+#     },
+#     {
+#         'id': 2,
+#         'name': 'icecream',
+#     },
+#     {
+#         'id': 3,
+#         'name': 'Food',
+#     },
+#     {
+#         'id': 4,
+#         'name': 'Fast Food',
+#     },
+#     {
+#         'id': 5,
+#         'name': 'Wine',
+#     },
+#     {
+#         'id': 6,
+#         'name': 'Cafe',
+#     }
+# ]
+# for item in range(12):
+#     category = random.choice(categories)
+#     products.append({
+#         'id': 1,
+#         'name': randomname.get_name(noun='food'),
+#         'price': random.randrange(1, 101, 2),
+#         'discount': random.randrange(10, 51),
+#         'category': category['name'],
+#         'rating': random.randrange(0, 51)
+#     })
 
 
 @app.errorhandler(404)
@@ -91,35 +94,37 @@ def admin():
 @app.route("/index")
 @app.route("/home")
 def index():
-    filter_category = request.args.get('filter_category', default='all', type=str)
+    # filter_category = request.args.get('filter_category', default='all', type=str)
 
-    product_filtered = []
-    if filter_category == 'all':
-        product_filtered = products
-    else:
-        for product_found in products:
-            if product_found['category'] == filter_category:
-                product_filtered.append(product_found)
+    # product_filtered = []
+    # if filter_category == 'all':
+    #     product_filtered = products
+    # else:
+        # for product_found in products:
+        #     if product_found['category'] == filter_category:
+        #         product_filtered.append(product_found)
+    return render_template("user/index.html")
+        # return render_template("index.html", products=product_filtered, categories=categories,
+    #                        filter_category=filter_category)
 
-    return render_template("index.html", products=product_filtered, categories=categories,
-                           filter_category=filter_category)
 
-
-@app.route("/product_detail/<string:name>/<string:price>/<string:discount>/<string:category>/<string:rating>/<string"
-           ":image>")
-def product_detail(name, price, discount, category, rating, image):
-    description = lorem.paragraph()
-    return render_template('component/product_detail.html', name=name, price=price, discount=discount,
-                           category=category, rating=rating, image=image, description=description)
+# @app.route("/product_detail/<string:name>/<string:price>/<string:discount>/<string:category>/<string:rating>/<string"
+#            ":image>")
+# def product_detail(name, price, discount, category, rating, image):
+#     description = lorem.paragraph()
+#     return render_template('component/product_detail.html', name=name, price=price, discount=discount,
+#                            category=category, rating=rating, image=image, description=description)
 
 
 @app.route('/circle')
 def circle():
     return render_template('pos/circleColor.vue')
 
+
 @app.route('/pos')
 def pos():
     return render_template('pos/pos.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,4 +1,5 @@
 import sqlite3 as sql
+from sqlalchemy import create_engine
 
 
 def execute_query(query, params=(), database="database.db", is_insert=False):
@@ -13,3 +14,8 @@ def execute_query(query, params=(), database="database.db", is_insert=False):
 
     rows = cur.fetchall()
     return rows
+
+
+connection_string = "mysql+mysqlconnector://root:@localhost:3306/python"
+engine = create_engine(connection_string, echo=True)
+conn = engine.connect()

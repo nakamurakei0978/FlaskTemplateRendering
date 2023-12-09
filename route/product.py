@@ -1,12 +1,30 @@
 from datetime import datetime
-from unicodedata import decimal
 
-from flask import Blueprint, render_template, request, redirect, current_app
+from mysql.connector import connect
+from unicodedata import decimal
+from flask import Blueprint, render_template, request, redirect, current_app, jsonify
 from werkzeug.utils import secure_filename
 import os
-from config import execute_query
+from config import execute_query, conn
+from sqlalchemy import text
 
 products = Blueprint('products', __name__)
+
+
+# api products
+@products.route('/get_products')
+def get_products():
+    all_products = conn.execute(text('select * from product'))
+    json_string = []
+    for p in all_products:
+        json_string.append({
+            'id': p.id,
+            'name': p.name,
+            'price': p.price,
+            'category': p.category,
+            'image': p.image,
+        })
+    return jsonify(json_string)
 
 
 # ** filter db and get all data and throw to student list page
@@ -70,7 +88,7 @@ def product_added():
                     return 'File size is too large. The maximum file size is 2MB.', 400
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
-                filename = secure_filename(f"{pname}_{cost+price}{extension}")
+                filename = secure_filename(f"{pname}_{cost + price}{extension}")
                 image.save(os.path.join(current_app.config['PRODUCT_UPLOAD_FOLDER'], filename))
 
                 query = "INSERT INTO product (name,category_id,description," \
@@ -143,7 +161,7 @@ def product_edited():
                         os.remove(old_image_path)
 
                 # Save the image to the uploads folder, with fisrtname_lastname.extension as the filename
-                filename = secure_filename(f"{name}_{cost+price}{extension}")
+                filename = secure_filename(f"{name}_{cost + price}{extension}")
                 image.save(os.path.join(current_app.config['PRODUCT_UPLOAD_FOLDER'], filename))
 
                 query = f"UPDATE product SET " \

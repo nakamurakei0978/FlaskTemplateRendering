@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'user/head/head.html' %}
+<body>
+<div id="app">
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a @click="getCId(-1)" :class="activeCategory(-1)" class="nav-link" href="#all">All</a>
+        </li>
+        <li class="nav-item" v-for="c in categories">
+            <a @click="getCId(c.id)" :class="activeCategory(c.id)" v-text="c.name" class="nav-link"
+               :href="'#'+c.name"></a>
+        </li>
+    </ul>
+    <div class="container pt-5">
+        <div class="row gap-4">
+            <div v-for="p in filteredProducts" class="card col-3" style="width: 18rem;">
+                <img :src="'/static/image/product/'+p.image" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 v-text="p.name" class="card-title"></h5>
+                    <p class="card-text" v-text="'$'+(p.price/100)"></p>
+                    <p class="card-text" v-text="categoryName(p.category)"></p>
+                    <a href="#" class="btn btn-primary">More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p v-text="products"></p>
+<p v-text="categories"></p>
+</div>
+
+<script src="/static/js/bootstrap.min.js"></script>
+<script type="module">
+    const {createApp, ref, onMounted, onUnmounted, computed, inject} = Vue
+
+    const app = createApp({
+        setup() {
+            const $loading =  inject('$loading')
+            const products = ref(null)
+            const categories = ref(null)
+            async function getjson() {
+                const loader = $loading.show({
+                    loader: 'dots',
+                    transition: 'fade',
+                    opacity: 1
+                })
+                products.value = null
+                categories.value = null
+                const resp = await fetch(
+                    `http://127.0.0.1:5000/get_products`
+                )
+                const resc = await fetch(
+                    `http://127.0.0.1:5000/get_product_categories`
+                )
+                products.value = await resp.json()
+                categories.value = await resc.json()
+                setTimeout(() => {
+                    loader.hide()
+                }, 300)
+            }
+
+            onMounted(() => getjson())
+            const selectedCategory = ref(-1)
+
+            function getCId(id) {
+                if(id === selectedCategory.value) return
+                const loader=$loading.show({loader: 'dots','is-full-page': false})
+                selectedCategory.value = id
+                setTimeout(() => {
+                    loader.hide()
+                }, 200)
+            }
+            function categoryName(id){
+                if(categories.value){
+                    const name = categories.value.find((c)=>c.id === id)
+                    return name.name
+                }
+                return ''
+            }
+            const filteredProducts = computed(() => {
+                if (selectedCategory.value === -1)
+                    return products.value
+                return products.value.filter((p) => p.category === selectedCategory.value)
+            })
+            const activeCategory = computed(() => {
+                return (id) => {
+                    return selectedCategory.value === id ? 'active' : ''
+                }
+            })
+
+            return {
+                products, categories, getCId, filteredProducts, activeCategory,categoryName
+            }
+        }
+    });
+    app.use(VueLoading.LoadingPlugin)
+    app.component('loading', VueLoading.Component)
+    app.mount('#app')
+</script>
+</body>
+</html>
